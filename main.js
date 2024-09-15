@@ -75,10 +75,22 @@ function showMenu() {
 
 function displayScene(sceneIndex) {
     const scene = scenes[sceneIndex];
-    document.getElementById('background').src = scene.background;
-    document.getElementById('background').style.display = 'block';
-    const characterImg = document.getElementById('character');
     
+    // Set background image
+    const backgroundImg = document.getElementById('background');
+    backgroundImg.src = scene.background;
+
+    // Check if the image loaded correctly
+    backgroundImg.onload = () => {
+        backgroundImg.style.opacity = 1; // Ensure the image is visible
+    };
+
+    backgroundImg.onerror = () => {
+        console.error('Failed to load background image:', scene.background);
+    };
+
+    // Set character image
+    const characterImg = document.getElementById('character');
     if (scene.character) {
         characterImg.src = scene.character;
         characterImg.style.display = 'block';
@@ -94,45 +106,4 @@ function displayScene(sceneIndex) {
     choicesContainer.innerHTML = '';
 
     // Show dialog text with typewriter effect
-    typeWriter(`${playerName}, ${scene.text}`);
-
-    // Create choice buttons
-    if (scene.choices.length > 0) {
-        scene.choices.forEach(choice => {
-            const button = document.createElement('button');
-            button.innerText = choice.text;
-            button.classList.add('choice-button');
-            button.onclick = () => {
-                currentScene = choice.nextScene;
-                if (currentScene === scenes.length - 1) { // Check if it's the ending scene
-                    showMenu();
-                } else {
-                    displayScene(currentScene);
-                }
-            };
-            choicesContainer.appendChild(button);
-        });
-    }
-}
-
-function typeWriter(text) {
-    const dialogueText = document.getElementById('dialogue-text');
-    dialogueText.innerHTML = '';
-    let index = 0;
-    const speed = 50; // typing speed in milliseconds
-    const interval = setInterval(() => {
-        if (index < text.length) {
-            dialogueText.innerHTML += text.charAt(index);
-            index++;
-        } else {
-            clearInterval(interval);
-        }
-    }, speed);
-}
-
-// Display saved game on load
-window.onload = function() {
-    if (localStorage.getItem('currentScene')) {
-        document.querySelector('#menu-button').style.display = 'inline-block';
-    }
-}
+    typeWriter(`${playerName}, ${scene
