@@ -83,7 +83,7 @@
             background-color: #666;
         }
 
-        #main-menu {
+        #main-menu, #name-input {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -94,7 +94,7 @@
             background-color: rgba(0, 0, 0, 0.8);
         }
 
-        #main-menu button {
+        #main-menu button, #name-input button {
             padding: 10px 20px;
             margin: 10px;
             font-size: 20px;
@@ -105,8 +105,20 @@
             border-radius: 5px;
         }
 
-        #main-menu button:hover {
+        #main-menu button:hover, #name-input button:hover {
             background-color: #666;
+        }
+
+        #name-input {
+            display: none;
+        }
+
+        #name-input input {
+            padding: 10px;
+            font-size: 18px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
         }
 
         #save-button, #menu-button {
@@ -131,6 +143,12 @@
     </style>
 </head>
 <body>
+    <div id="name-input">
+        <h1>Choose Your Name</h1>
+        <input type="text" id="name-field" placeholder="Enter your name (default: Aki)">
+        <button onclick="setPlayerName()">Start New Game</button>
+    </div>
+
     <div id="game-container">
         <img src="" alt="Background" id="background">
         <img src="" alt="Character" id="character">
@@ -144,7 +162,7 @@
 
     <div id="main-menu">
         <h1>Visual Novel</h1>
-        <button onclick="startGame()">Start New Game</button>
+        <button onclick="showNameInput()">Start New Game</button>
         <button onclick="loadGame()">Load Game</button>
     </div>
 
