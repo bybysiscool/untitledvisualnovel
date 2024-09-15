@@ -73,6 +73,13 @@ function showMenu() {
     document.getElementById('main-menu').style.display = 'flex';
 }
 
+function typeWriter(text, i = 0) {
+    if (i < text.length) {
+        document.getElementById('dialogue-text').innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(text, i + 1), 50);
+    }
+}
+
 function displayScene(sceneIndex) {
     const scene = scenes[sceneIndex];
     
@@ -106,4 +113,29 @@ function displayScene(sceneIndex) {
     choicesContainer.innerHTML = '';
 
     // Show dialog text with typewriter effect
-    typeWriter(`${playerName}, ${scene
+    document.getElementById('dialogue-text').innerHTML = '';
+    typeWriter(`${playerName}, ${scene.text}`);
+
+    // Create choice buttons
+    if (scene.choices.length > 0) {
+        scene.choices.forEach(choice => {
+            const button = document.createElement('button');
+            button.innerText = choice.text;
+            button.classList.add('choice-button');
+            button.onclick = () => {
+                currentScene = choice.nextScene;
+                if (currentScene === scenes.length - 1) { // Check if it's the ending scene
+                    showMenu();
+                } else {
+                    displayScene(currentScene);
+                }
+            };
+            choicesContainer.appendChild(button);
+        });
+    }
+}
+
+// Initial menu setup
+document.getElementById('main-menu').style.display = 'flex';
+document.getElementById('name-input').style.display = 'none';
+document.getElementById('game-container').style.display = 'none';
