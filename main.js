@@ -76,15 +76,17 @@ function showMenu() {
 function displayScene(sceneIndex) {
     const scene = scenes[sceneIndex];
     document.getElementById('background').src = scene.background;
+    document.getElementById('background').style.display = 'block';
+    const characterImg = document.getElementById('character');
+    
     if (scene.character) {
-        const characterImg = document.getElementById('character');
         characterImg.src = scene.character;
         characterImg.style.display = 'block';
         setTimeout(() => {
             characterImg.style.opacity = 1;
         }, 100);
     } else {
-        document.getElementById('character').style.display = 'none';
+        characterImg.style.display = 'none';
     }
 
     // Clear previous choices
